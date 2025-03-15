@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #1a1a1a;
+        overflow: hidden;
+        font-family: "Arial", sans-serif;
+      }
+
+      .container {
+        position: relative;
+        text-align: center;
+        color: white;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: 3em;
+        text-shadow: 0 0 20px #ff69b4;
+        margin-bottom: 30px;
+        animation: glow 2s infinite;
+      }
+
+      #wishes {
+        font-size: 1.5em;
+        text-shadow: 0 0 10px #00ffff;
+        min-height: 100px;
+        margin: 20px 0;
+        opacity: 0;
+        transition: 0.5s;
+      }
+
+      #wishes.visible {
+        opacity: 1;
+      }
+
+      button {
+        padding: 15px 40px;
+        font-size: 1.2em;
+        background: #ff69b4;
+        border: none;
+        border-radius: 25px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        transform: scale(1.1);
+        background: #ff1493;
+        box-shadow: 0 0 20px #ff69b4;
+      }
+
+      .hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      .heart {
+        position: absolute;
+        color: #ff69b4;
+        animation: float 6s linear infinite;
+        opacity: 0;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 20px #ff69b4;
+        }
+        50% {
+          text-shadow: 0 0 40px #ff69b4, 0 0 60px #ff69b4;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts" id="hearts"></div>
+    <div class="container">
+      <h1>💖 Брооо</h1>
+      <div id="wishes"></div>
+      <button onclick="showNextWish()">Нажми для пожелания💞</button>
+    </div>
+
+    <script>
+      const wishesList = [
+        "Ты — мой бро , ценю тебя и наше общение !",
+        "Желаю тебе всегда оставаться такой , какая ты есть , красивой , доброй и просто лучшей",
+        "Пусть твоя жизнь будет наполнена радостью и счастьем , а ты всегда будешь окружена теми , кто тебя любит и ценит !", // Запятая добавлена здесь
+        "Пусть мы и достаточно мало общаемся , но ценю тебя пиздец , всегда буду рядом по возможности и помогу чем смогу ",
+      ];
+
+      let currentWish = 0;
+      const wishesElement = document.getElementById("wishes");
+
+      function createHearts() {
+        const heartsContainer = document.getElementById("hearts");
+        heartsContainer.innerHTML = "";
+        for (let i = 0; i < 20; i++) {
+          const heart = document.createElement("div");
+          heart.innerHTML = Math.random() > 0.5 ? "🌸" : "🎁";
+          heart.className = "heart";
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.animationDelay = Math.random() * 3 + "s";
+          heartsContainer.appendChild(heart);
+        }
+      }
+
+      function showNextWish() {
+        wishesElement.classList.remove("visible");
+
+        setTimeout(() => {
+          currentWish = (currentWish + 1) % wishesList.length;
+          wishesElement.textContent = wishesList[currentWish];
+          wishesElement.classList.add("visible");
+          createHearts();
+        }, 300);
+      }
+
+      window.onload = createHearts;
+    </script>
+  </body>
+</html>
